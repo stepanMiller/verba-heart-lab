@@ -1,8 +1,8 @@
-name: Deploy VERBA Heart Lab to GitHub Pages
+name: Deploy VERBA Heart Lab V2 to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [v2]
   workflow_dispatch:
 
 permissions:
@@ -18,8 +18,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout stable V1
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: v1
+
+      - name: Checkout V2
+        uses: actions/checkout@v4
+        with:
+          ref: v2
+          path: v2
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -31,22 +40,41 @@ jobs:
         with:
           enablement: true
 
-      - name: Install dependencies
+      - name: Install V1 dependencies
+        working-directory: v1
         run: npm install --no-audit --no-fund
 
-      - name: Build static site
+      - name: Build stable V1
+        working-directory: v1
         env:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_BASE_PATH: /verba-heart-lab
         run: npm run build:pages
 
+      - name: Install V2 dependencies
+        working-directory: v2
+        run: npm install --no-audit --no-fund
+
+      - name: Build V2
+        working-directory: v2
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_BASE_PATH: /verba-heart-lab/v2
+        run: npm run build:pages
+
+      - name: Assemble V1 and V2
+        run: |
+          mkdir -p site/v2
+          cp -R v1/out/. site/
+          cp -R v2/out/. site/v2/
+
       - name: Disable Jekyll processing
-        run: touch out/.nojekyll
+        run: touch site/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./site
 
   deploy:
     environment:
