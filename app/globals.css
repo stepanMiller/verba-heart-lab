@@ -446,15 +446,36 @@ h1 {
 
 .pressure-peak {
   opacity: 0;
-  animation: systolic-cgi 1.08s cubic-bezier(.22,.61,.36,1) infinite;
+  animation: systolic-cgi 1.85s cubic-bezier(.22,.61,.36,1) infinite;
 }
 
 @keyframes systolic-cgi {
   0%, 100% { opacity: 0; }
   12% { opacity: .10; }
-  22% { opacity: .92; }
+  22% { opacity: var(--pressure-peak-opacity, .58); transform: scale(var(--pressure-wave-scale, 1)); }
   34% { opacity: .20; }
   52% { opacity: 0; }
+}
+
+.pressure-live-wave {
+  position: absolute;
+  z-index: 3;
+  top: 11%;
+  bottom: 11%;
+  left: 45%;
+  width: 13%;
+  border-radius: 48%;
+  opacity: var(--pressure-wave-opacity, .34);
+  background: linear-gradient(90deg, transparent, rgba(244,239,224,.46), rgba(255,252,242,.78), transparent);
+  filter: blur(12px);
+  mix-blend-mode: screen;
+  animation: pressure-wave-pass 1.85s cubic-bezier(.18,.72,.33,1) infinite;
+}
+
+@keyframes pressure-wave-pass {
+  0%, 8% { transform: translate3d(-170%,0,0) scaleX(var(--pressure-wave-scale, 1)); opacity: 0; }
+  28%, 67% { opacity: var(--pressure-wave-opacity, .34); }
+  92%, 100% { transform: translate3d(410%,0,0) scaleX(var(--pressure-wave-scale, 1)); opacity: 0; }
 }
 
 .pressure-copy { width: min(43vw, 665px); }
@@ -463,46 +484,19 @@ h1 {
 
 .pressure-title-line { white-space: nowrap; }
 
-.pressure-fact {
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: start;
-  align-items: end;
-  column-gap: 10px;
-  margin-top: clamp(23px, 3.1vh, 34px);
-  color: #303530;
-}
-
-.pressure-fact strong {
-  font-family: "Iowan Old Style", "Baskerville", "URW Bookman", Georgia, serif;
-  font-size: clamp(2.35rem, 3.3vw, 3.65rem);
-  font-weight: 400;
-  line-height: .88;
-  letter-spacing: -.045em;
-}
-
-.pressure-fact span {
-  padding-bottom: 4px;
-  color: #757a74;
-  font: 500 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .10em;
-  text-transform: uppercase;
-}
-
-.pressure-fact p {
-  grid-column: 1 / span 2;
-  margin: 9px 0 0;
-  padding-top: 9px;
-  width: min(380px, 100%);
-  border-top: 1px solid rgba(111,125,98,.36);
-  color: #6f7d62;
-  font: 600 9px/1.25 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
+.pressure-control { margin-top: clamp(20px,2.8vh,30px); width: min(470px,100%); }
+.pressure-reading { display: flex; align-items: end; gap: 10px; color: #303530; }
+.pressure-reading strong { font-family: "Iowan Old Style", "Baskerville", "URW Bookman", Georgia, serif; font-size: clamp(2.35rem,3.3vw,3.65rem); font-weight: 400; line-height: .88; letter-spacing: -.045em; }
+.pressure-reading span { padding-bottom: 4px; color: #757a74; font: 500 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .10em; text-transform: uppercase; }
+.pressure-control input[type="range"] { width: 100%; margin-top: 12px; accent-color: #6f7d62; cursor: pointer; }
+.pressure-range-labels { display: flex; justify-content: space-between; margin-top: 1px; color: #9a9b96; font: 500 6.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; }
+.pressure-state { display: grid; gap: 4px; margin-top: 7px; min-height: 35px; }
+.pressure-state strong { color: #6f7d62; font: 600 8px/1.25 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .07em; text-transform: uppercase; }
+.pressure-state span { max-width: 440px; color: #777b75; font-size: 10px; line-height: 1.35; }
+.pressure-state.is-threshold strong { color: #7c675d; }
 
 .pressure-status {
-  animation-duration: 1.08s;
+  animation-duration: 1.85s;
 }
 
 .vascular-experience::after {
@@ -616,7 +610,7 @@ h1 {
   h1 { font-size: clamp(2.7rem, 8vw, 4.7rem); }
   .lead { max-width: 46ch; }
   .scene-caption { display: none; }
-  .pressure-fact { margin-top: 18px; }
+  .pressure-control { margin-top: 16px; }
   .vascular-copy { width: min(82vw, 710px); }
   .vascular-copy h1 { font-size: clamp(2.55rem, 7.5vw, 4.45rem); }
 }
@@ -645,7 +639,7 @@ h1 {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
-  .pressure-peak { opacity: .42; }
+  .pressure-peak { opacity: var(--pressure-peak-opacity, .42); }
   .risk-athero-stream i { opacity: .72; }
   .risk-pressure-wave { opacity: .18; }
 }
@@ -821,9 +815,13 @@ h1 {
   .risk-chain span { font-size: 6px; }
   .risk-chain strong { font-size: 7.5px; }
 
-  .pressure-fact { margin-top: 10px; }
-  .pressure-fact strong { font-size: 2.3rem; }
-  .pressure-fact p { margin-top: 6px; padding-top: 6px; font-size: 7px; }
+  .pressure-control { margin-top: 9px; }
+  .pressure-reading strong { font-size: 2.2rem; }
+  .pressure-reading span { font-size: 7px; }
+  .pressure-control input[type="range"] { margin-top: 7px; }
+  .pressure-state { gap: 2px; margin-top: 4px; min-height: 30px; }
+  .pressure-state strong { font-size: 6.5px; }
+  .pressure-state span { max-width: 39ch; font-size: 8px; line-height: 1.28; }
 
   .trajectory-block { margin-top: 10px; }
   .trajectory-kicker { margin-bottom: 6px; font-size: 7px; }
@@ -1216,7 +1214,7 @@ h1 {
   .pressure-copy { top: 35%; }
   .pressure-copy h1 { font-size: clamp(2.2rem, 10.8vw, 3.15rem); }
   .pressure-copy .lead { font-size: 11.5px; line-height: 1.42; }
-  .pressure-fact { margin-top: 12px; }
+  .pressure-control { margin-top: 10px; }
   .vascular-copy { top: 35%; }
   .vascular-copy h1 { font-size: clamp(2.1rem, 10.4vw, 3rem); max-width: 14ch; }
   .vascular-copy .lead { margin-top: 12px; font-size: 11.5px; line-height: 1.42; }
