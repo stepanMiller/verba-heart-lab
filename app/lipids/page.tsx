@@ -29,7 +29,9 @@ export default function LipidsScene() {
     <main className={`experience lipids-experience lipids-${view}`}>
       <div className="scene-layer lipids-scene" aria-hidden="true">
         <img className="lipids-image" src={sitePath("/assets/slide06-lipids.webp")} alt="" draggable={false} />
-        <div className="lipid-particles"><i /><i /><i /><i /><i /><i /></div>
+        <div className="lipid-particles">
+          {Array.from({ length: 14 }, (_, index) => <i key={index} />)}
+        </div>
         <div className="vessel-grain" />
       </div>
 
@@ -50,8 +52,8 @@ export default function LipidsScene() {
         <div className="lipid-note" aria-live="polite"><strong>{active.title}</strong><span>{active.copy}</span></div>
       </section>
 
-      <aside className="scene-caption lipids-caption"><span className="pulse-dot" /><span>Микросреда крови · концептуальная CGI</span><b>Клинический смысл задаёт профиль риска, а не картинка одной частицы</b></aside>
-      <footer className="footline"><p>Визуализация концептуальная; размеры и концентрации частиц не являются измерением конкретного пациента.</p><a href={LIPID_SOURCE} target="_blank" rel="noreferrer">Источник · ESC/EAS 2025</a></footer>
+      <aside className="scene-caption lipids-caption"><span className="pulse-dot lipid-status" /><span>Кармин · атерогенный поток</span><b>Частицы — условный визуальный сигнал; клинический смысл задаёт профиль риска</b></aside>
+      <footer className="footline"><p>Визуализация концептуальная; размеры, цвет и концентрации частиц не являются измерением конкретного пациента.</p><a href={LIPID_SOURCE} target="_blank" rel="noreferrer">Источник · ESC/EAS 2025</a></footer>
     </main>
   );
 }
