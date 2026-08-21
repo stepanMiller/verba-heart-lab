@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { sitePath } from "./site-path";
 
 type SceneNavProps = {
@@ -10,7 +10,18 @@ type SceneNavProps = {
 };
 
 export function SceneNav({ current, previous, next }: SceneNavProps) {
+  const navRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
+    // The mobile homepage is a continuous vertical deck. Route navigation and
+    // horizontal swipe handling belong only to the desktop, one-scene view.
+    const nav = navRef.current;
+    const isMobileDeck = Boolean(nav?.closest(".mobile-deck"));
+    const isHiddenDesktopCopy = Boolean(
+      nav?.closest(".desktop-opening") && window.matchMedia("(max-width: 640px)").matches,
+    );
+    if (isMobileDeck || isHiddenDesktopCopy) return;
+
     const navigate = (href?: string) => {
       if (href) window.location.assign(sitePath(href));
     };
@@ -53,7 +64,7 @@ export function SceneNav({ current, previous, next }: SceneNavProps) {
   }, [next, previous]);
 
   return (
-    <nav className="slide-index scene-navigation" aria-label="Навигация по слайдам">
+    <nav ref={navRef} className="slide-index scene-navigation" aria-label="Навигация по слайдам">
       {previous ? (
         <a href={sitePath(previous)} aria-label="Предыдущая сцена">←</a>
       ) : (
