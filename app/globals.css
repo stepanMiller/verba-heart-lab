@@ -15,6 +15,9 @@ body { overflow: hidden; background: #f3f1eb; }
 
 button, input { font: inherit; }
 
+.mobile-deck,
+.mobile-scroll-cue { display: none; }
+
 button:focus-visible, input:focus-visible {
   outline: 2px solid #6f7d62;
   outline-offset: 4px;
@@ -928,6 +931,73 @@ h1 {
   .vascular-experience .scene-layer { top: 63%; }
   .horizon-field, .score-stage, .diagnostic-console, .choice-balance { top: 60%; }
   .days-stage { top: 58%; }
+}
+
+/* Mobile story mode: keep the approved scenes intact, but place all twelve in
+   one natural vertical flow, matching the proven Bali presentation pattern. */
+@media (max-width: 640px) {
+  html:has(.mobile-deck),
+  body:has(.mobile-deck) {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  body:has(.mobile-deck) { touch-action: pan-y; }
+
+  .desktop-opening { display: none; }
+
+  .mobile-deck {
+    display: block;
+    width: 100%;
+    overflow-x: hidden;
+    background: #f3f1eb;
+  }
+
+  .mobile-deck > .experience {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100svh;
+    min-height: 620px;
+    overflow: hidden;
+    scroll-snap-align: none;
+    touch-action: pan-y;
+  }
+
+  .mobile-deck .scene-navigation a,
+  .mobile-deck .scene-navigation .scene-nav-spacer { display: none; }
+
+  .mobile-deck .scene-navigation { gap: 7px; }
+
+  .mobile-scroll-cue {
+    position: absolute;
+    right: 20px;
+    bottom: max(26px, calc(env(safe-area-inset-bottom) + 16px));
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6f746d;
+    font: 600 8px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .mobile-scroll-cue i {
+    color: #a9615d;
+    font-size: 15px;
+    font-style: normal;
+    animation: mobile-scroll-hint 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes mobile-scroll-hint {
+  0%, 100% { transform: translateY(-2px); opacity: .55; }
+  50% { transform: translateY(4px); opacity: 1; }
 }
 
 /* Full 12-scene narrative */
