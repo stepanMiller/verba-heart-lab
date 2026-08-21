@@ -1,2 +1,2 @@
-:HL["/verba-heart-lab/v2/_next/static/chunks/0jweoy6dwce3-.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"v1E54IQ_cRdhpFQORzBnA"}
+:HL["/verba-heart-lab/v2/_next/static/chunks/0fp-zbufe2xn..css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"NfB3WV2gWYOlw9BYFbqsG"}
