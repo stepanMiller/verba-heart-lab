@@ -33,8 +33,9 @@ function OpeningScene({ mobile = false }: { mobile?: boolean }) {
         <h1 id={titleId}>Сердце<br />до симптомов</h1>
         <p className="hero-subtitle">Как понять свой сердечно-сосудистый риск и научиться им управлять</p>
         <div className="hero-speaker">
-          <span>Юлия</span>
-          <b>врач-кардиолог · VERBA</b>
+          <strong>Кондальская Юлия Олеговна</strong>
+          <span>Врач-терапевт, кардиолог</span>
+          <b>Заместитель главного врача<br />по медицинской части</b>
         </div>
       </section>
 
