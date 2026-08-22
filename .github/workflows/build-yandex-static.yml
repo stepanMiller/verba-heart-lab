@@ -1,0 +1,48 @@
+name: Build static site for Yandex Cloud
+
+on:
+  push:
+    branches: [yandex-hosting]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Yandex migration branch
+        uses: actions/checkout@v4
+        with:
+          ref: yandex-hosting
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build root-path static export
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_BASE_PATH: ""
+        run: npm run build:pages
+
+      - name: Publish generated site to yandex-static branch
+        run: |
+          rm -rf /tmp/yandex-site
+          mkdir -p /tmp/yandex-site
+          cp -R out/. /tmp/yandex-site/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan yandex-static
+          git rm -rf . || true
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R /tmp/yandex-site/. .
+          touch .nojekyll
+          git add -A
+          git commit -m "Build static site for Yandex Cloud"
+          git push --force origin HEAD:yandex-static
