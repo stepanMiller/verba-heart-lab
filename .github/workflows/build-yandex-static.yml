@@ -30,12 +30,17 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ""
         run: npm run build:pages
 
-      - name: Publish generated site to yandex-static branch
+      - name: Prepare site and upload package
         run: |
           rm -rf /tmp/yandex-site
           mkdir -p /tmp/yandex-site
           cp -R out/. /tmp/yandex-site/
+          cd /tmp/yandex-site
+          zip -qr /tmp/VERBA-Heart-Yandex-Upload.zip .
+          cd "$GITHUB_WORKSPACE"
 
+      - name: Publish generated site to yandex-static branch
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan yandex-static
@@ -46,3 +51,13 @@ jobs:
           git add -A
           git commit -m "Build static site for Yandex Cloud"
           git push --force origin HEAD:yandex-static
+
+      - name: Publish one-click ZIP to yandex-package branch
+        run: |
+          git checkout --orphan yandex-package
+          git rm -rf . || true
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp /tmp/VERBA-Heart-Yandex-Upload.zip ./VERBA-Heart-Yandex-Upload.zip
+          git add VERBA-Heart-Yandex-Upload.zip
+          git commit -m "Package static site for Yandex Cloud upload"
+          git push --force origin HEAD:yandex-package
