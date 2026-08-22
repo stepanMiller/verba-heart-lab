@@ -1,0 +1,64 @@
+name: Deploy V2 to Yandex Object Storage
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: yandex-production
+  cancel-in-progress: true
+
+env:
+  BUCKET_NAME: verba-heart
+  S3_ENDPOINT: https://storage.yandexcloud.net
+  AWS_DEFAULT_REGION: ru-central1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout V2
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build root-path static export
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_BASE_PATH: ""
+        run: npm run build:pages
+
+      - name: Install AWS CLI
+        run: python3 -m pip install --user awscli
+
+      - name: Deploy to Yandex Object Storage
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 sync out/ "s3://${BUCKET_NAME}/" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --delete \
+            --no-progress
+
+          aws s3 cp out/ "s3://${BUCKET_NAME}/" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --recursive \
+            --exclude "*" \
+            --include "*.html" \
+            --cache-control "no-cache, no-store, must-revalidate" \
+            --content-type "text/html; charset=utf-8" \
+            --metadata-directive REPLACE \
+            --no-progress
+
+      - name: Deployment URL
+        run: echo "https://verba-heart.website.yandexcloud.net" >> "$GITHUB_STEP_SUMMARY"
