@@ -3,6 +3,7 @@
 import { SceneNav } from "../scene-nav";
 import { useSceneActivity } from "../scene-activity";
 import { sitePath } from "../site-path";
+import { HEART_CUTAWAY_IMAGE } from "../heart-asset";
 
 export default function HeartContextScene() {
   const { sceneRef, active } = useSceneActivity();
@@ -10,8 +11,12 @@ export default function HeartContextScene() {
   return (
     <main ref={sceneRef} className={`experience heart-context-experience ${active ? "is-active" : ""}`}>
       <div className="scene-layer" aria-hidden="true">
-        <img className="organ-scene-image heart-context-image" src={sitePath("/assets/scene-heart.webp")} alt="" draggable={false} />
-        <div className="heart-context-glow" />
+        <div className="organ-visual heart-visual">
+          <img className="organ-scene-image heart-context-image" src={HEART_CUTAWAY_IMAGE} alt="" draggable={false} />
+          <div className="heart-pulse-halo" />
+          <div className="heart-pulse-ring heart-pulse-ring-one" />
+          <div className="heart-pulse-ring heart-pulse-ring-two" />
+        </div>
         <div className="vessel-grain" />
       </div>
 
