@@ -41,7 +41,7 @@ jobs:
       - name: Install AWS CLI
         run: python3 -m pip install --user awscli
 
-      - name: Deploy to Yandex Object Storage
+      - name: Deploy root to Yandex Object Storage
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
@@ -56,9 +56,38 @@ jobs:
             --recursive \
             --exclude "*" \
             --include "*.html" \
-            --cache-control "no-cache, no-store, must-revalidate" \
+            --cache-control "no-cache, no-store, must-revalidate, max-age=0" \
+            --content-type "text/html; charset=utf-8" \
+            --no-progress
+
+      - name: Build immutable release
+        run: |
+          SHORT_SHA="${GITHUB_SHA::8}"
+          BASE_PATH="/release-${SHORT_SHA}"
+          rm -rf .next out
+          GITHUB_PAGES="true" NEXT_PUBLIC_BASE_PATH="${BASE_PATH}" npm run build:pages
+          echo "RELEASE_PATH=${BASE_PATH}" >> "$GITHUB_ENV"
+
+      - name: Deploy immutable release
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 sync out/ "s3://${BUCKET_NAME}${RELEASE_PATH}/" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --delete \
+            --no-progress
+
+          aws s3 cp out/ "s3://${BUCKET_NAME}${RELEASE_PATH}/" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --recursive \
+            --exclude "*" \
+            --include "*.html" \
+            --cache-control "no-cache, no-store, must-revalidate, max-age=0" \
             --content-type "text/html; charset=utf-8" \
             --no-progress
 
       - name: Deployment URL
-        run: echo "https://verba-heart.website.yandexcloud.net" >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          echo "Root: https://verba-heart.website.yandexcloud.net" >> "$GITHUB_STEP_SUMMARY"
+          echo "Immutable release: https://verba-heart.website.yandexcloud.net${RELEASE_PATH}/" >> "$GITHUB_STEP_SUMMARY"
