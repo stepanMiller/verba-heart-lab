@@ -3,25 +3,26 @@
 import { SceneNav } from "../scene-nav";
 import { useSceneActivity } from "../scene-activity";
 import { sitePath } from "../site-path";
+import { STROKE_HEAD_IMAGE } from "../stroke-asset";
 
 export default function StrokeScene() {
   const { sceneRef, active } = useSceneActivity();
+  const flowPath = "M 760 520 C 720 462, 700 402, 710 344 C 720 292, 742 250, 775 214";
 
   return (
     <main ref={sceneRef} className={`experience stroke-experience ${active ? "is-active" : ""}`}>
       <div className="scene-layer" aria-hidden="true">
-        <img className="organ-scene-image stroke-scene-image" src={sitePath("/assets/scene-stroke.webp")} alt="" draggable={false} />
-        <div className="stroke-brain-pulse" />
-        <div className="stroke-flow-visual">
-          <svg viewBox="0 0 220 220" role="presentation">
-            <circle className="stroke-halo" cx="110" cy="110" r="102" />
-            <path className="stroke-vessel" d="M30 112 C66 104, 92 108, 124 111 C152 113, 172 109, 191 100" />
-            <circle className="stroke-flow f1" cx="44" cy="110" r="6" />
-            <circle className="stroke-flow f2" cx="44" cy="110" r="6" />
-            <circle className="stroke-flow f3" cx="44" cy="110" r="6" />
-            <circle className="stroke-flow f4" cx="44" cy="110" r="6" />
-            <circle className="stroke-clot" cx="137" cy="111" r="17" />
-            <line className="stroke-stopline" x1="151" y1="88" x2="151" y2="134" />
+        <div className="organ-visual stroke-visual">
+          <img className="organ-scene-image stroke-scene-image" src={STROKE_HEAD_IMAGE} alt="" draggable={false} />
+          <svg className="stroke-flow-overlay" viewBox="0 0 1000 563" role="presentation" preserveAspectRatio="xMidYMid meet">
+            <path className="stroke-flow-guide" d={flowPath} />
+            {[0, 0.7, 1.4, 2.1].map((delay) => (
+              <circle key={delay} className="stroke-flow-particle" r="5" cx="0" cy="0">
+                <animateMotion dur="3.2s" begin={`-${delay}s`} repeatCount="indefinite" path={flowPath} />
+              </circle>
+            ))}
+            <circle className="stroke-impact-ring stroke-impact-ring-one" cx="775" cy="214" r="27" />
+            <circle className="stroke-impact-ring stroke-impact-ring-two" cx="775" cy="214" r="27" />
           </svg>
         </div>
         <div className="vessel-grain" />
