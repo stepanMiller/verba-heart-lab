@@ -41,22 +41,40 @@ jobs:
       - name: Install AWS CLI
         run: python3 -m pip install --user awscli
 
-      - name: Deploy root to Yandex Object Storage
+      - name: Deploy canonical root to Yandex Object Storage
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
         run: |
+          # Remove the old entry document first so the website endpoint cannot
+          # keep serving the previous ETag while the rest of the build changes.
+          aws s3 rm "s3://${BUCKET_NAME}/index.html" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --no-progress || true
+
           aws s3 sync out/ "s3://${BUCKET_NAME}/" \
             --endpoint-url "${S3_ENDPOINT}" \
             --delete \
             --no-progress
 
+          # HTML must always revalidate. Hashed Next assets can keep their
+          # default metadata; only entry documents are forced to no-store.
           aws s3 cp out/ "s3://${BUCKET_NAME}/" \
             --endpoint-url "${S3_ENDPOINT}" \
             --recursive \
             --exclude "*" \
             --include "*.html" \
-            --cache-control "no-cache, no-store, must-revalidate, max-age=0" \
+            --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
+            --expires "Thu, 01 Jan 1970 00:00:00 GMT" \
+            --content-type "text/html; charset=utf-8" \
+            --no-progress
+
+          # Upload the root entry document one final time with explicit
+          # metadata after the sync. This is the canonical public URL.
+          aws s3 cp out/index.html "s3://${BUCKET_NAME}/index.html" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
+            --expires "Thu, 01 Jan 1970 00:00:00 GMT" \
             --content-type "text/html; charset=utf-8" \
             --no-progress
 
@@ -83,11 +101,12 @@ jobs:
             --recursive \
             --exclude "*" \
             --include "*.html" \
-            --cache-control "no-cache, no-store, must-revalidate, max-age=0" \
+            --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
+            --expires "Thu, 01 Jan 1970 00:00:00 GMT" \
             --content-type "text/html; charset=utf-8" \
             --no-progress
 
       - name: Deployment URL
         run: |
-          echo "Root: https://verba-heart.website.yandexcloud.net" >> "$GITHUB_STEP_SUMMARY"
+          echo "Canonical: https://verba-heart.website.yandexcloud.net" >> "$GITHUB_STEP_SUMMARY"
           echo "Immutable release: https://verba-heart.website.yandexcloud.net${RELEASE_PATH}/" >> "$GITHUB_STEP_SUMMARY"
