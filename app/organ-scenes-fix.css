@@ -1,4 +1,4 @@
-/* Final responsive pass for the 14-scene VERBA deck.
+/* Responsive organ scenes for the 14-scene VERBA deck.
    Loaded after globals.css so these rules are authoritative. */
 
 /* Slide 02: keep the 0 / 10-year circles fully visible on phones. */
@@ -25,8 +25,7 @@
   .horizon-pulse { top: 42%; }
 }
 
-/* Slides 03 and 09: both visuals are now purpose-built 16:9 assets.
-   They use the same composition on desktop and mobile; only scale changes. */
+/* Slides 03 and 09: desktop composition. */
 .heart-context-experience::after,
 .stroke-experience::after {
   background: linear-gradient(90deg, rgba(243,241,235,.995) 0%, rgba(243,241,235,.90) 34%, rgba(243,241,235,.18) 54%, rgba(243,241,235,0) 72%);
@@ -64,16 +63,30 @@
   filter: saturate(.92) contrast(.98);
 }
 
+.heart-context-image { transform-origin: 78% 58%; }
+
 .heart-context-experience.is-active .heart-context-image {
-  animation: heart-visual-breathe 1.38s ease-in-out .2s infinite;
+  animation: heart-visual-beat 1.38s ease-in-out .2s infinite;
 }
 
-@keyframes heart-visual-breathe {
-  0%, 100% { filter: saturate(.92) contrast(.98) brightness(1); }
-  12% { filter: saturate(.98) contrast(1) brightness(1.025); }
-  22% { filter: saturate(.94) contrast(.99) brightness(1.008); }
-  33% { filter: saturate(.98) contrast(1) brightness(1.02); }
-  48% { filter: saturate(.92) contrast(.98) brightness(1); }
+@keyframes heart-visual-beat {
+  0%, 100% {
+    transform: scale(1);
+    filter: saturate(.92) contrast(.98) brightness(1);
+  }
+  12% {
+    transform: scale(1.009);
+    filter: saturate(.98) contrast(1) brightness(1.025);
+  }
+  22% { transform: scale(1.002); }
+  33% {
+    transform: scale(1.011);
+    filter: saturate(.98) contrast(1) brightness(1.02);
+  }
+  48% {
+    transform: scale(1);
+    filter: saturate(.92) contrast(.98) brightness(1);
+  }
 }
 
 .heart-pulse-halo,
@@ -164,10 +177,19 @@
   70%, 100% { opacity: 0; transform: scale(1.9); }
 }
 
+/* Mobile: the text remains in the upper half, while the medical render uses a
+   tall lower viewport crop. This is intentionally NOT a squeezed 16:9 card. */
 @media (max-width: 640px) {
   .heart-context-experience::after,
   .stroke-experience::after {
-    background: linear-gradient(180deg, rgba(243,241,235,1) 0%, rgba(243,241,235,1) 55%, rgba(243,241,235,.88) 66%, rgba(243,241,235,.08) 88%, rgba(243,241,235,0) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(243,241,235,1) 0%,
+      rgba(243,241,235,1) 51%,
+      rgba(243,241,235,.84) 59%,
+      rgba(243,241,235,.18) 72%,
+      rgba(243,241,235,0) 86%
+    );
   }
 
   .heart-context-copy,
@@ -213,25 +235,39 @@
   .organ-tags span { max-width: none; font-size: 5.9px; line-height: 1.28; }
 
   .organ-visual {
-    inset: auto auto 2.5svh 0;
-    width: 100%;
+    inset: auto;
+    left: 0;
+    right: 0;
+    top: 56%;
+    bottom: 0;
+    width: auto;
     height: auto;
-    aspect-ratio: 16 / 9;
-    overflow: visible;
+    aspect-ratio: auto;
+    overflow: hidden;
   }
 
   .organ-visual .organ-scene-image {
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: 100% 50%;
   }
+
+  .heart-context-image { transform-origin: 62% 55%; }
 
   .heart-pulse-halo,
   .heart-pulse-ring {
-    left: 78.2%;
-    top: 58%;
-    width: 29%;
+    left: 62%;
+    top: 55%;
+    width: 48%;
+  }
+
+  .stroke-flow-overlay {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 
   .stroke-mechanism {
@@ -258,9 +294,17 @@
   .stroke-copy { top: 78px; }
 
   .organ-visual {
-    width: 92%;
-    left: 4%;
-    bottom: 1svh;
+    top: 59%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .heart-pulse-halo,
+  .heart-pulse-ring {
+    left: 62%;
+    top: 54%;
+    width: 45%;
   }
 }
 
