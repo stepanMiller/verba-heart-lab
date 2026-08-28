@@ -1,0 +1,226 @@
+/* Final alignment pass for the two inserted organ bridge scenes.
+   Keep the approved story and animation, but make their geometry follow
+   the same grid as the rest of the 14-scene deck. */
+
+.heart-context-copy,
+.stroke-copy {
+  width: min(44vw, 690px);
+}
+
+.heart-context-copy h1,
+.stroke-copy h1 {
+  max-width: 13.4ch;
+  font-size: clamp(2.9rem, 4.35vw, 4.65rem);
+}
+
+.heart-context-image,
+.stroke-scene-image {
+  left: 0;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .heart-context-experience::after,
+  .stroke-experience::after {
+    background: linear-gradient(
+      180deg,
+      rgba(243,241,235,1) 0%,
+      rgba(243,241,235,1) 43%,
+      rgba(243,241,235,.94) 52%,
+      rgba(243,241,235,.40) 64%,
+      rgba(243,241,235,.05) 78%,
+      rgba(243,241,235,0) 100%
+    );
+  }
+
+  .heart-context-copy,
+  .stroke-copy {
+    top: 78px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    transform: none;
+  }
+
+  .heart-context-copy h1,
+  .stroke-copy h1 {
+    max-width: 14ch;
+    font-size: clamp(2.12rem, 9.8vw, 2.72rem);
+    line-height: .97;
+  }
+
+  .heart-context-copy .lead,
+  .stroke-copy .lead {
+    margin-top: 11px;
+    max-width: 46ch;
+    font-size: 10.5px;
+    line-height: 1.42;
+  }
+
+  .organ-thesis {
+    margin-top: 9px;
+    padding-top: 7px;
+    max-width: 48ch;
+    font-size: 7.8px;
+    line-height: 1.4;
+  }
+
+  .organ-tags {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 9px;
+    max-width: 100%;
+  }
+
+  .organ-tags div {
+    min-width: 0;
+    gap: 3px;
+    padding-top: 6px;
+  }
+
+  .organ-tags strong {
+    font-size: 6.4px;
+    line-height: 1.2;
+  }
+
+  .organ-tags span {
+    max-width: none;
+    font-size: 5.9px;
+    line-height: 1.28;
+  }
+
+  .heart-context-experience .scene-layer,
+  .stroke-experience .scene-layer {
+    overflow: hidden;
+  }
+
+  .organ-scene-image {
+    top: 54%;
+    left: 0;
+    bottom: auto;
+    width: 100%;
+    height: 46%;
+    opacity: .96;
+    object-fit: cover;
+    object-position: 72% 50%;
+    mix-blend-mode: normal;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%);
+  }
+
+  .heart-context-image {
+    object-position: 73% 50%;
+    transform: scale(1.035);
+    transform-origin: 73% 68%;
+  }
+
+  .stroke-scene-image {
+    object-position: 68% 50%;
+    transform: scale(1.02);
+    transform-origin: 68% 68%;
+  }
+
+  .heart-context-experience.is-active .heart-context-image {
+    animation: heart-context-beat-aligned 1.42s ease-in-out .35s 5;
+  }
+
+  @keyframes heart-context-beat-aligned {
+    0%, 100% { transform: scale(1.035); }
+    10% { transform: scale(1.049); }
+    17% { transform: scale(1.04); }
+    25% { transform: scale(1.052); }
+    38% { transform: scale(1.035); }
+  }
+
+  .heart-context-glow {
+    left: auto;
+    right: 2vw;
+    top: auto;
+    bottom: 8svh;
+    width: 46vw;
+  }
+
+  .organ-caption {
+    right: 20px;
+    bottom: 30px;
+    max-width: 218px;
+    padding: 7px 9px;
+    background: rgba(243,241,235,.76);
+    backdrop-filter: blur(5px);
+  }
+
+  .stroke-mechanism {
+    grid-template-columns: minmax(0,1fr) 10px minmax(0,1fr) 10px minmax(0,1fr);
+    gap: 4px;
+    margin-top: 11px;
+    max-width: 100%;
+  }
+
+  .stroke-mechanism > div {
+    min-width: 0;
+  }
+
+  .stroke-mechanism > i {
+    margin-top: 12px;
+  }
+
+  .stroke-mechanism span {
+    font-size: 5.5px;
+  }
+
+  .stroke-mechanism strong {
+    font-size: .75rem;
+    line-height: 1.1;
+  }
+
+  .stroke-mechanism small {
+    max-width: none;
+    font-size: 5.7px;
+    line-height: 1.25;
+  }
+
+  .stroke-flow-visual {
+    right: 2vw;
+    bottom: 3.8svh;
+    width: 41vw;
+  }
+
+  .stroke-brain-pulse {
+    right: 3vw;
+    top: auto;
+    bottom: 22svh;
+    width: 36vw;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 720px) {
+  .heart-context-copy,
+  .stroke-copy {
+    top: 74px;
+  }
+
+  .organ-scene-image {
+    top: 56%;
+    height: 44%;
+  }
+
+  .heart-context-image {
+    transform: scale(1.025);
+  }
+
+  .stroke-scene-image {
+    transform: scale(1.015);
+  }
+
+  .heart-context-experience.is-active .heart-context-image {
+    animation: heart-context-beat-aligned-short 1.42s ease-in-out .35s 5;
+  }
+
+  @keyframes heart-context-beat-aligned-short {
+    0%, 100% { transform: scale(1.025); }
+    10% { transform: scale(1.038); }
+    17% { transform: scale(1.03); }
+    25% { transform: scale(1.041); }
+    38% { transform: scale(1.025); }
+  }
+}
