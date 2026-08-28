@@ -1,6 +1,7 @@
-/* Final alignment pass for the inserted organ bridge scenes and the mobile
-   horizon graphic. Loaded after globals.css so these values are authoritative. */
+/* Mobile corrections for the 14-scene VERBA deck.
+   Loaded after globals.css so these rules are authoritative. */
 
+/* Desktop keeps the original wide editorial composition. */
 .heart-context-copy,
 .stroke-copy {
   width: min(44vw, 690px);
@@ -12,14 +13,8 @@
   font-size: clamp(2.9rem, 4.35vw, 4.65rem);
 }
 
-.heart-context-image,
-.stroke-scene-image {
-  left: 0;
-  width: 100%;
-}
-
 @media (max-width: 640px) {
-  /* Slide 02: keep the 0 / 10-year circles completely inside the scene. */
+  /* Slide 02: keep 0 / 10-year circles completely inside the viewport. */
   .horizon-field {
     top: 54%;
     height: 31%;
@@ -45,22 +40,23 @@
   .horizon-line { top: 47%; }
   .horizon-pulse { top: 42%; }
 
+  /* Slides 03 and 09: true mobile composition.
+     Do not stretch the wide desktop render across the whole phone. */
   .heart-context-experience::after,
   .stroke-experience::after {
     background: linear-gradient(
       180deg,
       rgba(243,241,235,1) 0%,
-      rgba(243,241,235,1) 42%,
-      rgba(243,241,235,.95) 50%,
-      rgba(243,241,235,.42) 62%,
-      rgba(243,241,235,.06) 77%,
+      rgba(243,241,235,1) 56%,
+      rgba(243,241,235,.94) 63%,
+      rgba(243,241,235,.20) 79%,
       rgba(243,241,235,0) 100%
     );
   }
 
   .heart-context-copy,
   .stroke-copy {
-    top: 78px;
+    top: 94px;
     left: 20px;
     right: 20px;
     width: auto;
@@ -119,60 +115,57 @@
     overflow: hidden;
   }
 
-  /* Do not treat the organ render as a desktop background on mobile.
-     Give it a clean lower half and crop from the right, where the anatomy is. */
+  /* The anatomy is now a contained visual object, not a full-width background. */
   .organ-scene-image {
-    top: 49%;
-    left: 0;
-    bottom: auto;
-    width: 100%;
-    height: 51%;
+    position: absolute;
+    top: auto;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    width: 74%;
+    height: 36%;
     opacity: .98;
     object-fit: cover;
+    object-position: 100% 50%;
     mix-blend-mode: normal;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 100%);
   }
 
   .heart-context-image {
-    object-position: 100% 50%;
-    transform: scale(1.08);
-    transform-origin: 100% 70%;
+    transform: none;
+    transform-origin: 84% 70%;
   }
 
   .stroke-scene-image {
-    object-position: 100% 50%;
-    transform: scale(1.06);
-    transform-origin: 100% 68%;
+    width: 78%;
+    height: 35%;
+    transform: none;
+    transform-origin: 84% 70%;
   }
 
   .heart-context-experience.is-active .heart-context-image {
-    animation: heart-context-beat-aligned 1.42s ease-in-out .35s 5;
+    animation: heart-context-beat-mobile-contained 1.42s ease-in-out .35s 5;
   }
 
-  @keyframes heart-context-beat-aligned {
-    0%, 100% { transform: scale(1.08); }
-    10% { transform: scale(1.096); }
-    17% { transform: scale(1.086); }
-    25% { transform: scale(1.101); }
-    38% { transform: scale(1.08); }
+  @keyframes heart-context-beat-mobile-contained {
+    0%, 100% { transform: scale(1); }
+    10% { transform: scale(1.012); }
+    17% { transform: scale(1.004); }
+    25% { transform: scale(1.015); }
+    38% { transform: scale(1); }
   }
 
   .heart-context-glow {
     left: auto;
-    right: -2vw;
+    right: 0;
     top: auto;
-    bottom: 8svh;
-    width: 50vw;
+    bottom: 4svh;
+    width: 42vw;
   }
 
   .organ-caption {
-    right: 20px;
-    bottom: 30px;
-    max-width: 218px;
-    padding: 7px 9px;
-    background: rgba(243,241,235,.76);
-    backdrop-filter: blur(5px);
+    display: none;
   }
 
   .stroke-mechanism {
@@ -189,16 +182,16 @@
   .stroke-mechanism small { max-width: none; font-size: 5.7px; line-height: 1.25; }
 
   .stroke-flow-visual {
-    right: 2vw;
-    bottom: 3.8svh;
-    width: 41vw;
+    right: 1vw;
+    bottom: 1.5svh;
+    width: 32vw;
   }
 
   .stroke-brain-pulse {
     right: 3vw;
     top: auto;
-    bottom: 22svh;
-    width: 36vw;
+    bottom: 13svh;
+    width: 28vw;
   }
 }
 
@@ -208,25 +201,15 @@
   .horizon-future { top: 5%; }
 
   .heart-context-copy,
-  .stroke-copy { top: 74px; }
+  .stroke-copy { top: 78px; }
 
   .organ-scene-image {
-    top: 50%;
-    height: 50%;
+    width: 70%;
+    height: 31%;
   }
 
-  .heart-context-image { transform: scale(1.06); }
-  .stroke-scene-image { transform: scale(1.045); }
-
-  .heart-context-experience.is-active .heart-context-image {
-    animation: heart-context-beat-aligned-short 1.42s ease-in-out .35s 5;
-  }
-
-  @keyframes heart-context-beat-aligned-short {
-    0%, 100% { transform: scale(1.06); }
-    10% { transform: scale(1.074); }
-    17% { transform: scale(1.065); }
-    25% { transform: scale(1.077); }
-    38% { transform: scale(1.06); }
+  .stroke-scene-image {
+    width: 74%;
+    height: 30%;
   }
 }
