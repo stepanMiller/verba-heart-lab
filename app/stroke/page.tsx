@@ -14,7 +14,7 @@ export default function StrokeScene() {
       <div className="scene-layer" aria-hidden="true">
         <div className="organ-visual stroke-visual">
           <img className="organ-scene-image stroke-scene-image" src={STROKE_HEAD_IMAGE} alt="" draggable={false} />
-          <svg className="stroke-flow-overlay" viewBox="0 0 1000 563" role="presentation" preserveAspectRatio="xMidYMid meet">
+          <svg className="stroke-flow-overlay" viewBox="0 0 1000 563" role="presentation" preserveAspectRatio="xMaxYMid slice">
             <path className="stroke-flow-guide" d={flowPath} />
             {[0, 0.7, 1.4, 2.1].map((delay) => (
               <circle key={delay} className="stroke-flow-particle" r="5" cx="0" cy="0">
