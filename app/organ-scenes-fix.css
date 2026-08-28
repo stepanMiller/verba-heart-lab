@@ -1,7 +1,37 @@
-/* Mobile corrections for the 14-scene VERBA deck.
+/* Final responsive pass for the 14-scene VERBA deck.
    Loaded after globals.css so these rules are authoritative. */
 
-/* Desktop keeps the original wide editorial composition. */
+/* Slide 02: keep the 0 / 10-year circles fully visible on phones. */
+@media (max-width: 640px) {
+  .horizon-field {
+    top: 54%;
+    height: 31%;
+    overflow: visible;
+  }
+  .horizon-now,
+  .horizon-future {
+    width: 31%;
+    min-width: 102px;
+  }
+  .horizon-now { top: 16%; }
+  .horizon-future { top: 7%; }
+  .horizon-now strong,
+  .horizon-future strong {
+    font-size: 2.9rem;
+    line-height: .96;
+    padding-bottom: 2px;
+  }
+  .horizon-line { top: 47%; }
+  .horizon-pulse { top: 42%; }
+}
+
+/* Slides 03 and 09: both visuals are now purpose-built 16:9 assets.
+   They use the same composition on desktop and mobile; only scale changes. */
+.heart-context-experience::after,
+.stroke-experience::after {
+  background: linear-gradient(90deg, rgba(243,241,235,.995) 0%, rgba(243,241,235,.90) 34%, rgba(243,241,235,.18) 54%, rgba(243,241,235,0) 72%);
+}
+
 .heart-context-copy,
 .stroke-copy {
   width: min(44vw, 690px);
@@ -13,45 +43,131 @@
   font-size: clamp(2.9rem, 4.35vw, 4.65rem);
 }
 
+.organ-visual {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.organ-visual .organ-scene-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  transform: none;
+  mix-blend-mode: normal;
+  -webkit-mask-image: none;
+  mask-image: none;
+  filter: saturate(.92) contrast(.98);
+}
+
+.heart-context-experience.is-active .heart-context-image {
+  animation: heart-visual-breathe 1.38s ease-in-out .2s infinite;
+}
+
+@keyframes heart-visual-breathe {
+  0%, 100% { filter: saturate(.92) contrast(.98) brightness(1); }
+  12% { filter: saturate(.98) contrast(1) brightness(1.025); }
+  22% { filter: saturate(.94) contrast(.99) brightness(1.008); }
+  33% { filter: saturate(.98) contrast(1) brightness(1.02); }
+  48% { filter: saturate(.92) contrast(.98) brightness(1); }
+}
+
+.heart-pulse-halo,
+.heart-pulse-ring {
+  position: absolute;
+  left: 78.2%;
+  top: 58%;
+  width: 29%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.heart-pulse-halo {
+  background: radial-gradient(circle, rgba(167,73,77,.17) 0%, rgba(167,73,77,.07) 38%, rgba(167,73,77,0) 72%);
+  opacity: .35;
+}
+
+.heart-pulse-ring {
+  border: 1px solid rgba(169,97,93,.26);
+  opacity: 0;
+}
+
+.heart-context-experience.is-active .heart-pulse-halo {
+  animation: heart-halo-pulse 1.38s ease-in-out .2s infinite;
+}
+.heart-context-experience.is-active .heart-pulse-ring-one {
+  animation: heart-ring-pulse 1.38s ease-out .1s infinite;
+}
+.heart-context-experience.is-active .heart-pulse-ring-two {
+  animation: heart-ring-pulse 1.38s ease-out .45s infinite;
+}
+
+@keyframes heart-halo-pulse {
+  0%, 100% { opacity: .18; transform: translate(-50%, -50%) scale(.84); }
+  16% { opacity: .64; transform: translate(-50%, -50%) scale(1); }
+  34% { opacity: .22; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+@keyframes heart-ring-pulse {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+  20% { opacity: .52; }
+  66%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.34); }
+}
+
+.stroke-flow-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.stroke-flow-guide {
+  fill: none;
+  stroke: rgba(164,74,78,.16);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.stroke-flow-particle {
+  fill: #a6494d;
+  opacity: .82;
+  filter: drop-shadow(0 0 5px rgba(166,73,77,.55));
+}
+
+.stroke-impact-ring {
+  fill: none;
+  stroke: rgba(166,73,77,.48);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.stroke-experience.is-active .stroke-impact-ring-one {
+  animation: stroke-impact-pulse 2.4s ease-out .2s infinite;
+}
+.stroke-experience.is-active .stroke-impact-ring-two {
+  animation: stroke-impact-pulse 2.4s ease-out 1.05s infinite;
+}
+
+@keyframes stroke-impact-pulse {
+  0% { opacity: 0; transform: scale(.65); }
+  18% { opacity: .68; }
+  70%, 100% { opacity: 0; transform: scale(1.9); }
+}
+
 @media (max-width: 640px) {
-  /* Slide 02: keep 0 / 10-year circles completely inside the viewport. */
-  .horizon-field {
-    top: 54%;
-    height: 31%;
-    overflow: visible;
-  }
-
-  .horizon-now,
-  .horizon-future {
-    width: 31%;
-    min-width: 102px;
-  }
-
-  .horizon-now { top: 16%; }
-  .horizon-future { top: 7%; }
-
-  .horizon-now strong,
-  .horizon-future strong {
-    font-size: 2.9rem;
-    line-height: .96;
-    padding-bottom: 2px;
-  }
-
-  .horizon-line { top: 47%; }
-  .horizon-pulse { top: 42%; }
-
-  /* Slides 03 and 09: true mobile composition.
-     Do not stretch the wide desktop render across the whole phone. */
   .heart-context-experience::after,
   .stroke-experience::after {
-    background: linear-gradient(
-      180deg,
-      rgba(243,241,235,1) 0%,
-      rgba(243,241,235,1) 56%,
-      rgba(243,241,235,.94) 63%,
-      rgba(243,241,235,.20) 79%,
-      rgba(243,241,235,0) 100%
-    );
+    background: linear-gradient(180deg, rgba(243,241,235,1) 0%, rgba(243,241,235,1) 55%, rgba(243,241,235,.88) 66%, rgba(243,241,235,.08) 88%, rgba(243,241,235,0) 100%);
   }
 
   .heart-context-copy,
@@ -92,80 +208,30 @@
     margin-top: 9px;
     max-width: 100%;
   }
+  .organ-tags div { min-width: 0; gap: 3px; padding-top: 6px; }
+  .organ-tags strong { font-size: 6.4px; line-height: 1.2; }
+  .organ-tags span { max-width: none; font-size: 5.9px; line-height: 1.28; }
 
-  .organ-tags div {
-    min-width: 0;
-    gap: 3px;
-    padding-top: 6px;
+  .organ-visual {
+    inset: auto auto 2.5svh 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    overflow: visible;
   }
 
-  .organ-tags strong {
-    font-size: 6.4px;
-    line-height: 1.2;
+  .organ-visual .organ-scene-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
   }
 
-  .organ-tags span {
-    max-width: none;
-    font-size: 5.9px;
-    line-height: 1.28;
-  }
-
-  .heart-context-experience .scene-layer,
-  .stroke-experience .scene-layer {
-    overflow: hidden;
-  }
-
-  /* The anatomy is now a contained visual object, not a full-width background. */
-  .organ-scene-image {
-    position: absolute;
-    top: auto;
-    left: auto;
-    right: 0;
-    bottom: 0;
-    width: 74%;
-    height: 36%;
-    opacity: .98;
-    object-fit: cover;
-    object-position: 100% 50%;
-    mix-blend-mode: normal;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 100%);
-  }
-
-  .heart-context-image {
-    transform: none;
-    transform-origin: 84% 70%;
-  }
-
-  .stroke-scene-image {
-    width: 78%;
-    height: 35%;
-    transform: none;
-    transform-origin: 84% 70%;
-  }
-
-  .heart-context-experience.is-active .heart-context-image {
-    animation: heart-context-beat-mobile-contained 1.42s ease-in-out .35s 5;
-  }
-
-  @keyframes heart-context-beat-mobile-contained {
-    0%, 100% { transform: scale(1); }
-    10% { transform: scale(1.012); }
-    17% { transform: scale(1.004); }
-    25% { transform: scale(1.015); }
-    38% { transform: scale(1); }
-  }
-
-  .heart-context-glow {
-    left: auto;
-    right: 0;
-    top: auto;
-    bottom: 4svh;
-    width: 42vw;
-  }
-
-  .organ-caption {
-    display: none;
+  .heart-pulse-halo,
+  .heart-pulse-ring {
+    left: 78.2%;
+    top: 58%;
+    width: 29%;
   }
 
   .stroke-mechanism {
@@ -174,25 +240,13 @@
     margin-top: 11px;
     max-width: 100%;
   }
-
   .stroke-mechanism > div { min-width: 0; }
   .stroke-mechanism > i { margin-top: 12px; }
   .stroke-mechanism span { font-size: 5.5px; }
   .stroke-mechanism strong { font-size: .75rem; line-height: 1.1; }
   .stroke-mechanism small { max-width: none; font-size: 5.7px; line-height: 1.25; }
 
-  .stroke-flow-visual {
-    right: 1vw;
-    bottom: 1.5svh;
-    width: 32vw;
-  }
-
-  .stroke-brain-pulse {
-    right: 3vw;
-    top: auto;
-    bottom: 13svh;
-    width: 28vw;
-  }
+  .organ-caption { display: none; }
 }
 
 @media (max-width: 640px) and (max-height: 720px) {
@@ -203,13 +257,18 @@
   .heart-context-copy,
   .stroke-copy { top: 78px; }
 
-  .organ-scene-image {
-    width: 70%;
-    height: 31%;
+  .organ-visual {
+    width: 92%;
+    left: 4%;
+    bottom: 1svh;
   }
+}
 
-  .stroke-scene-image {
-    width: 74%;
-    height: 30%;
+@media (prefers-reduced-motion: reduce) {
+  .heart-context-experience.is-active .heart-context-image,
+  .heart-context-experience.is-active .heart-pulse-halo,
+  .heart-context-experience.is-active .heart-pulse-ring,
+  .stroke-experience.is-active .stroke-impact-ring {
+    animation: none;
   }
 }
