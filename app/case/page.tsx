@@ -7,7 +7,7 @@ export default function CaseScene() {
   return (
     <main className="experience case-experience">
       <div className="scene-layer case-scene" aria-hidden="true"><img className="case-image" src={sitePath("/assets/slide09-patient.webp")} alt="" draggable={false} /><div className="vessel-grain" /></div>
-      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="09" previous="/diagnostics" next="/choice" /></header>
+      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="11" previous="/diagnostics" next="/choice" /></header>
 
       <section className="copy case-copy" aria-labelledby="case-title">
         <div className="eyebrow">Учебный пример SCORE2</div>

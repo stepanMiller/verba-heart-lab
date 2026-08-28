@@ -72,7 +72,7 @@ export function SceneNav({ current, previous, next }: SceneNavProps) {
       )}
       <span>{current}</span>
       <i />
-      <span>12</span>
+      <span>14</span>
       {next ? (
         <a href={sitePath(next)} aria-label="Следующая сцена">→</a>
       ) : (

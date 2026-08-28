@@ -37,7 +37,7 @@ export default function LipidsScene() {
 
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="06" previous="/pressure" next="/vascular-age" />
+        <SceneNav current="07" previous="/pressure" next="/vascular-age" />
       </header>
 
       <section className="copy lipids-copy" aria-labelledby="lipids-title">

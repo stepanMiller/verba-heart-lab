@@ -67,7 +67,7 @@ export default function RiskScene() {
       </div>
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="03" previous="/no-symptoms" next="/score2" />
+        <SceneNav current="04" previous="/heart-context" next="/score2" />
       </header>
       <section className="copy" aria-labelledby="risk-title">
         <div className="eyebrow">Как формируется риск</div>

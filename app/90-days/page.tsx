@@ -18,7 +18,7 @@ export default function NinetyDaysScene() {
 
   return (
     <main className="experience days-experience">
-      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="11" previous="/choice" next="/final" /></header>
+      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="13" previous="/choice" next="/final" /></header>
       <section className="copy days-copy" aria-labelledby="days-title">
         <div className="eyebrow">Следующие 90 дней</div>
         <h1 id="days-title">Не «пройти всё».<br />Понять главное.</h1>

@@ -18,7 +18,7 @@ export default function DiagnosticsScene() {
 
   return (
     <main className="experience diagnostics-experience">
-      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="08" previous="/vascular-age" next="/case" /></header>
+      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="10" previous="/stroke" next="/case" /></header>
       <section className="copy diagnostics-copy" aria-labelledby="diagnostics-title">
         <div className="eyebrow">Диагностика начинается с вопроса</div>
         <h1 id="diagnostics-title">Нет исследования<br />«проверить сердце<br />полностью»</h1>

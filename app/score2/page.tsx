@@ -41,7 +41,7 @@ export default function Score2Scene() {
 
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="04" previous="/risk" next="/pressure" />
+        <SceneNav current="05" previous="/risk" next="/pressure" />
       </header>
 
       <section className="copy score-copy" aria-labelledby="score-title">

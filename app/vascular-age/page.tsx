@@ -52,7 +52,7 @@ export default function VascularAgeScene() {
 
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="07" previous="/lipids" next="/diagnostics" />
+        <SceneNav current="08" previous="/lipids" next="/stroke" />
       </header>
 
       <section className="copy vascular-copy" aria-labelledby="vascular-title">

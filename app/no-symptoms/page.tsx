@@ -23,7 +23,7 @@ export default function NoSymptomsScene() {
 
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="02" previous="/" next="/risk" />
+        <SceneNav current="02" previous="/" next="/heart-context" />
       </header>
 
       <section className="copy symptoms-copy" aria-labelledby="symptoms-title">

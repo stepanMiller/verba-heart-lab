@@ -4,7 +4,7 @@ import { sitePath } from "../site-path";
 export default function ChoiceScene() {
   return (
     <main className="experience choice-experience">
-      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="10" previous="/case" next="/90-days" /></header>
+      <header className="topline"><img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" /><SceneNav current="12" previous="/case" next="/90-days" /></header>
       <section className="copy choice-copy" aria-labelledby="choice-title">
         <div className="eyebrow">Риск — не диагноз и не приговор</div>
         <h1 id="choice-title">Риск нужен<br />не для страха.<br />Для выбора.</h1>

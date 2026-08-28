@@ -67,7 +67,7 @@ export default function PressureScene() {
 
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="05" previous="/score2" next="/lipids" />
+        <SceneNav current="06" previous="/score2" next="/lipids" />
       </header>
 
       <section className="copy pressure-copy" aria-labelledby="pressure-title">

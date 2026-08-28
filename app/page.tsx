@@ -5,11 +5,13 @@ import CaseScene from "./case/page";
 import ChoiceScene from "./choice/page";
 import DiagnosticsScene from "./diagnostics/page";
 import FinalScene from "./final/page";
+import HeartContextScene from "./heart-context/page";
 import LipidsScene from "./lipids/page";
 import NoSymptomsScene from "./no-symptoms/page";
 import PressureScene from "./pressure/page";
 import RiskScene from "./risk/page";
 import Score2Scene from "./score2/page";
+import StrokeScene from "./stroke/page";
 import VascularAgeScene from "./vascular-age/page";
 
 function OpeningScene({ mobile = false }: { mobile?: boolean }) {
@@ -60,14 +62,16 @@ export default function Home() {
     <>
       <div className="desktop-opening"><OpeningScene /></div>
 
-      <div className="mobile-deck" aria-label="Сердце до симптомов · 12 сцен">
+      <div className="mobile-deck" aria-label="Сердце до симптомов · 14 сцен">
         <OpeningScene mobile />
         <NoSymptomsScene />
+        <HeartContextScene />
         <RiskScene />
         <Score2Scene />
         <PressureScene />
         <LipidsScene />
         <VascularAgeScene />
+        <StrokeScene />
         <DiagnosticsScene />
         <CaseScene />
         <ChoiceScene />
