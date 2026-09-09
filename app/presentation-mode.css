@@ -30,16 +30,16 @@
   background: rgba(111,125,98,.22);
 }
 
-/* Projector pass. Titles were already large; the critical change is the
-   explanatory copy and micro-labels that disappear on a large screen. */
+/* Projector pass: enlarge not only titles, but the explanatory text and labels
+   that lose legibility at distance. */
 @media (min-width: 641px) {
   .desktop-deck .eyebrow {
-    font-size: clamp(11px, .72vw, 13px);
-    letter-spacing: .16em;
+    font-size: clamp(13px, .82vw, 15px);
+    letter-spacing: .15em;
   }
 
   .desktop-deck h1 {
-    font-size: clamp(3.25rem, 5.15vw, 5.55rem);
+    font-size: clamp(3.45rem, 5.35vw, 5.8rem);
   }
 
   .desktop-deck .heart-rebuilt-copy h1,
@@ -48,83 +48,83 @@
   .desktop-deck .vascular-copy h1,
   .desktop-deck .diagnostics-copy h1,
   .desktop-deck .case-copy h1 {
-    font-size: clamp(3.05rem, 4.72vw, 5rem);
+    font-size: clamp(3.2rem, 4.9vw, 5.2rem);
   }
 
   .desktop-deck .lead,
   .desktop-deck .heart-rebuilt-lead,
   .desktop-deck .stroke-rebuilt-lead {
-    font-size: clamp(17px, 1.18vw, 20px);
-    line-height: 1.55;
+    font-size: clamp(19px, 1.32vw, 23px);
+    line-height: 1.48;
   }
 
   .desktop-deck .hero-subtitle {
-    font-size: clamp(17px, 1.2vw, 20px);
-    line-height: 1.46;
+    font-size: clamp(19px, 1.3vw, 23px);
+    line-height: 1.42;
   }
 
-  .desktop-deck .hero-speaker strong { font-size: clamp(1.15rem, 1.35vw, 1.42rem); }
-  .desktop-deck .hero-speaker span { font-size: 13px; }
-  .desktop-deck .hero-speaker b { font-size: 10px; line-height: 1.4; }
+  .desktop-deck .hero-speaker strong { font-size: clamp(1.2rem, 1.45vw, 1.55rem); }
+  .desktop-deck .hero-speaker span { font-size: 15px; }
+  .desktop-deck .hero-speaker b { font-size: 12px; line-height: 1.4; }
 
-  .desktop-deck .factor { font-size: 14px; }
-  .desktop-deck .control-head { font-size: 11px; }
-  .desktop-deck .range-labels { font-size: 10px; }
-  .desktop-deck .risk-chain span { font-size: 8px; }
-  .desktop-deck .risk-chain strong { font-size: 10px; }
+  .desktop-deck .factor { font-size: 16px; }
+  .desktop-deck .control-head { font-size: 13px; }
+  .desktop-deck .range-labels { font-size: 12px; }
+  .desktop-deck .risk-chain span { font-size: 10px; }
+  .desktop-deck .risk-chain strong { font-size: 12px; }
 
   .desktop-deck .heart-rebuilt-thesis {
-    font-size: clamp(.9rem, 1vw, 1.02rem);
+    font-size: clamp(1rem, 1.08vw, 1.12rem);
   }
-  .desktop-deck .heart-rebuilt-tags strong { font-size: 10.5px; }
-  .desktop-deck .heart-rebuilt-tags span { font-size: 10px; }
+  .desktop-deck .heart-rebuilt-tags strong { font-size: 12px; }
+  .desktop-deck .heart-rebuilt-tags span { font-size: 11.5px; }
 
-  .desktop-deck .stroke-rebuilt-mechanism span { font-size: 8.5px; }
-  .desktop-deck .stroke-rebuilt-mechanism strong { font-size: 14px; }
-  .desktop-deck .stroke-rebuilt-mechanism small { font-size: 10.5px; }
+  .desktop-deck .stroke-rebuilt-mechanism span { font-size: 10px; }
+  .desktop-deck .stroke-rebuilt-mechanism strong { font-size: 16px; }
+  .desktop-deck .stroke-rebuilt-mechanism small { font-size: 12px; }
 
-  .desktop-deck .pressure-reading span { font-size: 11px; }
-  .desktop-deck .pressure-state strong { font-size: 10px; }
-  .desktop-deck .pressure-state span { font-size: 12px; }
+  .desktop-deck .pressure-reading span { font-size: 13px; }
+  .desktop-deck .pressure-state strong { font-size: 12px; }
+  .desktop-deck .pressure-state span { font-size: 14px; }
 
-  .desktop-deck .trajectory-kicker { font-size: 10px; }
-  .desktop-deck .trajectory-option span { font-size: 10px; }
-  .desktop-deck .trajectory-option strong { font-size: 14px; }
+  .desktop-deck .trajectory-kicker { font-size: 12px; }
+  .desktop-deck .trajectory-option span { font-size: 12px; }
+  .desktop-deck .trajectory-option strong { font-size: 16px; }
 
-  .desktop-deck .lipid-switch button { font-size: 11px; }
-  .desktop-deck .lipid-note strong { font-size: 10px; }
-  .desktop-deck .lipid-note span { font-size: 13px; }
+  .desktop-deck .lipid-switch button { font-size: 13px; }
+  .desktop-deck .lipid-note strong { font-size: 12px; }
+  .desktop-deck .lipid-note span { font-size: 15px; }
 
-  .desktop-deck .diagnostic-kicker { font-size: 10px; }
-  .desktop-deck .diagnostic-readout p { font-size: 13px; }
-  .desktop-deck .diagnostic-tabs button span { font-size: 11px; }
-  .desktop-deck .diagnostic-tabs button b { font-size: 12px; }
+  .desktop-deck .diagnostic-kicker { font-size: 12px; }
+  .desktop-deck .diagnostic-readout p { font-size: 15px; }
+  .desktop-deck .diagnostic-tabs button span { font-size: 13px; }
+  .desktop-deck .diagnostic-tabs button b { font-size: 14px; }
 
-  .desktop-deck .case-facts { font-size: 10px; }
-  .desktop-deck .case-risk span { font-size: 9px; }
+  .desktop-deck .case-facts { font-size: 12px; }
+  .desktop-deck .case-risk span { font-size: 11px; }
 
   .desktop-deck .choice-fixed span,
-  .desktop-deck .choice-action span { font-size: 10px; }
-  .desktop-deck .choice-action small { font-size: 10px; }
-  .desktop-deck .choice-context > span { font-size: 10px; }
-  .desktop-deck .choice-context p { font-size: 14px; }
+  .desktop-deck .choice-action span { font-size: 12px; }
+  .desktop-deck .choice-action small { font-size: 12px; }
+  .desktop-deck .choice-context > span { font-size: 12px; }
+  .desktop-deck .choice-context p { font-size: 16px; }
 
-  .desktop-deck .days-number span { font-size: 10px; }
-  .desktop-deck .days-number em { font-size: 10px; }
-  .desktop-deck .days-rail button span { font-size: 9px; }
-  .desktop-deck .days-rail button b { font-size: 11px; }
+  .desktop-deck .days-number span { font-size: 12px; }
+  .desktop-deck .days-number em { font-size: 12px; }
+  .desktop-deck .days-rail button span { font-size: 11px; }
+  .desktop-deck .days-rail button b { font-size: 13px; }
 
-  .desktop-deck .final-thesis { font-size: clamp(1.2rem, 1.55vw, 1.58rem); }
-  .desktop-deck .final-line b { font-size: 13px; }
+  .desktop-deck .final-thesis { font-size: clamp(1.3rem, 1.7vw, 1.75rem); }
+  .desktop-deck .final-line b { font-size: 15px; }
 
   .desktop-deck .scene-caption {
-    font-size: 9px;
-    line-height: 1.4;
+    font-size: 11px;
+    line-height: 1.45;
   }
 
   .desktop-deck .footline {
-    font-size: 8px;
-    letter-spacing: .055em;
+    font-size: 10px;
+    letter-spacing: .045em;
   }
 }
 
@@ -199,16 +199,39 @@
 @media (max-width: 640px) {
   .desktop-deck { display: none; }
 
-  .intro-film-video { object-fit: cover; }
+  .intro-film-overlay {
+    padding:
+      max(54px, env(safe-area-inset-top))
+      0
+      max(44px, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(circle at 50% 42%, rgba(232,198,171,.34), transparent 46%),
+      linear-gradient(180deg, #171b18 0%, #27221d 48%, #171b18 100%);
+  }
+
+  /* Keep the 16:9 film intact on portrait phones. This intentionally trades
+     full-bleed cropping for complete, readable on-video typography. */
+  .intro-film-video {
+    width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 98px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    object-position: center;
+    background: transparent;
+    box-shadow: 0 18px 60px rgba(0,0,0,.18);
+  }
+
   .intro-film-actions {
     top: max(14px, env(safe-area-inset-top));
     right: 14px;
-    gap: 5px;
   }
+
   .intro-film-actions button {
     min-height: 34px;
-    padding: 0 10px;
-    font-size: 7px;
+    padding: 0 12px;
+    font-size: 8px;
+    background: rgba(24,28,25,.46);
   }
 }
 
