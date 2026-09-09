@@ -1,5 +1,6 @@
 import { SceneNav } from "./scene-nav";
 import { sitePath } from "./site-path";
+import IntroFilm from "./intro-film";
 import NinetyDaysScene from "./90-days/page";
 import CaseScene from "./case/page";
 import ChoiceScene from "./choice/page";
@@ -57,26 +58,38 @@ function OpeningScene({ mobile = false }: { mobile?: boolean }) {
   );
 }
 
+function FullDeck({ mobile = false }: { mobile?: boolean }) {
+  return (
+    <>
+      <OpeningScene mobile={mobile} />
+      <NoSymptomsScene />
+      <HeartContextScene />
+      <RiskScene />
+      <Score2Scene />
+      <PressureScene />
+      <LipidsScene />
+      <VascularAgeScene />
+      <StrokeScene />
+      <DiagnosticsScene />
+      <CaseScene />
+      <ChoiceScene />
+      <NinetyDaysScene />
+      <FinalScene />
+    </>
+  );
+}
+
 export default function Home() {
   return (
     <>
-      <div className="desktop-opening"><OpeningScene /></div>
+      <IntroFilm />
+
+      <div className="desktop-deck" aria-label="Сердце до симптомов · 14 сцен">
+        <FullDeck />
+      </div>
 
       <div className="mobile-deck" aria-label="Сердце до симптомов · 14 сцен">
-        <OpeningScene mobile />
-        <NoSymptomsScene />
-        <HeartContextScene />
-        <RiskScene />
-        <Score2Scene />
-        <PressureScene />
-        <LipidsScene />
-        <VascularAgeScene />
-        <StrokeScene />
-        <DiagnosticsScene />
-        <CaseScene />
-        <ChoiceScene />
-        <NinetyDaysScene />
-        <FinalScene />
+        <FullDeck mobile />
       </div>
     </>
   );
