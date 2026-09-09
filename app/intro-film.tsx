@@ -9,6 +9,7 @@ export default function IntroFilm() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [visible, setVisible] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -33,6 +34,14 @@ export default function IntroFilm() {
     window.setTimeout(() => setVisible(false), 620);
   }
 
+  function toggleSound() {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = soundOn;
+    setSoundOn(!soundOn);
+    if (video.paused) video.play().catch(() => undefined);
+  }
+
   if (!visible) return null;
 
   return (
@@ -42,13 +51,20 @@ export default function IntroFilm() {
         className="intro-film-video"
         src={FILM_URL}
         autoPlay
-        muted
+        muted={!soundOn}
         playsInline
         preload="auto"
         onEnded={closeIntro}
         onError={closeIntro}
       />
-      <button className="intro-film-skip" type="button" onClick={closeIntro}>Пропустить</button>
+
+      <div className="intro-film-actions">
+        <button className="intro-film-sound" type="button" onClick={toggleSound}>
+          {soundOn ? "Выключить звук" : "Включить звук"}
+        </button>
+        <button className="intro-film-skip" type="button" onClick={closeIntro}>Пропустить</button>
+      </div>
+
       <div className="intro-film-progress" aria-hidden="true" />
     </div>
   );
