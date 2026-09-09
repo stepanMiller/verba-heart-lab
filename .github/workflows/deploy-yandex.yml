@@ -50,6 +50,8 @@ jobs:
             --endpoint-url "${S3_ENDPOINT}" \
             --no-progress || true
 
+          # Keep /media persistent across code deploys. Large video assets are
+          # managed separately and must never be removed by the static sync.
           aws s3 sync out/ "s3://${BUCKET_NAME}/" \
             --endpoint-url "${S3_ENDPOINT}" \
             --delete \
@@ -71,24 +73,6 @@ jobs:
             --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
             --expires "Thu, 01 Jan 1970 00:00:00 GMT" \
             --content-type "text/html; charset=utf-8" \
-            --no-progress
-
-      - name: Stage VERBA intro film into persistent media
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
-        run: |
-          curl -L --fail --retry 3 \
-            "https://d2jqrm6oza8nb6.cloudfront.net/datasets/7425f1a6-f0de-461b-8aec-1c6ceaf21067.mp4?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZGFlN2RmYzcyNGI2M2VkMiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc4OTEwOTE5MX0.VblLe0WzUvM9Xx217-8hAZ5-ncF82nupph2BMOzvEhs" \
-            -o /tmp/VERBA-Heart-Review-v02.mp4
-
-          test -s /tmp/VERBA-Heart-Review-v02.mp4
-
-          aws s3 cp /tmp/VERBA-Heart-Review-v02.mp4 \
-            "s3://${BUCKET_NAME}/media/VERBA-Heart-Review-v02.mp4" \
-            --endpoint-url "${S3_ENDPOINT}" \
-            --content-type "video/mp4" \
-            --cache-control "public, max-age=86400" \
             --no-progress
 
       - name: Build immutable release
