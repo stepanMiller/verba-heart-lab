@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import { sitePath } from "./site-path";
 
 type SceneNavProps = {
@@ -12,15 +12,41 @@ type SceneNavProps = {
 export function SceneNav({ current, previous, next }: SceneNavProps) {
   const navRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    // The mobile homepage is a continuous vertical deck. Route navigation and
-    // horizontal swipe handling belong only to the desktop, one-scene view.
+  function scrollDeck(direction: -1 | 1) {
     const nav = navRef.current;
-    const isMobileDeck = Boolean(nav?.closest(".mobile-deck"));
-    const isHiddenDesktopCopy = Boolean(
-      nav?.closest(".desktop-opening") && window.matchMedia("(max-width: 640px)").matches,
-    );
-    if (isMobileDeck || isHiddenDesktopCopy) return;
+    const scene = nav?.closest(".experience") as HTMLElement | null;
+    const deck = nav?.closest(".desktop-deck");
+    if (!scene || !deck) return false;
+
+    const target = direction < 0
+      ? scene.previousElementSibling
+      : scene.nextElementSibling;
+
+    if (!(target instanceof HTMLElement)) return false;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    return true;
+  }
+
+  function handleClick(event: MouseEvent<HTMLAnchorElement>, direction: -1 | 1) {
+    if (scrollDeck(direction)) event.preventDefault();
+  }
+
+  useEffect(() => {
+    const nav = navRef.current;
+    const isContinuousDeck = Boolean(nav?.closest(".mobile-deck, .desktop-deck"));
+    if (isContinuousDeck) {
+      const onKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "ArrowLeft" || event.key === "ArrowUp" || event.key === "PageUp") {
+          if (scrollDeck(-1)) event.preventDefault();
+        }
+        if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === "PageDown") {
+          if (scrollDeck(1)) event.preventDefault();
+        }
+      };
+
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
+    }
 
     const navigate = (href?: string) => {
       if (href) window.location.assign(sitePath(href));
@@ -66,7 +92,7 @@ export function SceneNav({ current, previous, next }: SceneNavProps) {
   return (
     <nav ref={navRef} className="slide-index scene-navigation" aria-label="Навигация по слайдам">
       {previous ? (
-        <a href={sitePath(previous)} aria-label="Предыдущая сцена">←</a>
+        <a href={sitePath(previous)} aria-label="Предыдущая сцена" onClick={(event) => handleClick(event, -1)}>←</a>
       ) : (
         <span className="scene-nav-spacer" aria-hidden="true">←</span>
       )}
@@ -74,7 +100,7 @@ export function SceneNav({ current, previous, next }: SceneNavProps) {
       <i />
       <span>14</span>
       {next ? (
-        <a href={sitePath(next)} aria-label="Следующая сцена">→</a>
+        <a href={sitePath(next)} aria-label="Следующая сцена" onClick={(event) => handleClick(event, 1)}>→</a>
       ) : (
         <span className="scene-nav-spacer" aria-hidden="true">→</span>
       )}
