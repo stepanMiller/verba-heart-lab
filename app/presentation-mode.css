@@ -1,0 +1,218 @@
+/* Desktop presentation mode: wheel/trackpad navigation, projector-scale type,
+   and the cinematic intro overlay. Mobile keeps the approved vertical story. */
+
+.desktop-deck {
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  background: #f3f1eb;
+}
+
+.desktop-deck > .experience {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: 100dvh;
+  min-height: 620px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.desktop-deck::-webkit-scrollbar { width: 8px; }
+.desktop-deck::-webkit-scrollbar-track { background: transparent; }
+.desktop-deck::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(111,125,98,.22);
+}
+
+/* Projector pass. Titles were already large; the critical change is the
+   explanatory copy and micro-labels that disappear on a large screen. */
+@media (min-width: 641px) {
+  .desktop-deck .eyebrow {
+    font-size: clamp(11px, .72vw, 13px);
+    letter-spacing: .16em;
+  }
+
+  .desktop-deck h1 {
+    font-size: clamp(3.25rem, 5.15vw, 5.55rem);
+  }
+
+  .desktop-deck .heart-rebuilt-copy h1,
+  .desktop-deck .stroke-rebuilt-copy h1,
+  .desktop-deck .lipids-copy h1,
+  .desktop-deck .vascular-copy h1,
+  .desktop-deck .diagnostics-copy h1,
+  .desktop-deck .case-copy h1 {
+    font-size: clamp(3.05rem, 4.72vw, 5rem);
+  }
+
+  .desktop-deck .lead,
+  .desktop-deck .heart-rebuilt-lead,
+  .desktop-deck .stroke-rebuilt-lead {
+    font-size: clamp(17px, 1.18vw, 20px);
+    line-height: 1.55;
+  }
+
+  .desktop-deck .hero-subtitle {
+    font-size: clamp(17px, 1.2vw, 20px);
+    line-height: 1.46;
+  }
+
+  .desktop-deck .hero-speaker strong { font-size: clamp(1.15rem, 1.35vw, 1.42rem); }
+  .desktop-deck .hero-speaker span { font-size: 13px; }
+  .desktop-deck .hero-speaker b { font-size: 10px; line-height: 1.4; }
+
+  .desktop-deck .factor { font-size: 14px; }
+  .desktop-deck .control-head { font-size: 11px; }
+  .desktop-deck .range-labels { font-size: 10px; }
+  .desktop-deck .risk-chain span { font-size: 8px; }
+  .desktop-deck .risk-chain strong { font-size: 10px; }
+
+  .desktop-deck .heart-rebuilt-thesis {
+    font-size: clamp(.9rem, 1vw, 1.02rem);
+  }
+  .desktop-deck .heart-rebuilt-tags strong { font-size: 10.5px; }
+  .desktop-deck .heart-rebuilt-tags span { font-size: 10px; }
+
+  .desktop-deck .stroke-rebuilt-mechanism span { font-size: 8.5px; }
+  .desktop-deck .stroke-rebuilt-mechanism strong { font-size: 14px; }
+  .desktop-deck .stroke-rebuilt-mechanism small { font-size: 10.5px; }
+
+  .desktop-deck .pressure-reading span { font-size: 11px; }
+  .desktop-deck .pressure-state strong { font-size: 10px; }
+  .desktop-deck .pressure-state span { font-size: 12px; }
+
+  .desktop-deck .trajectory-kicker { font-size: 10px; }
+  .desktop-deck .trajectory-option span { font-size: 10px; }
+  .desktop-deck .trajectory-option strong { font-size: 14px; }
+
+  .desktop-deck .lipid-switch button { font-size: 11px; }
+  .desktop-deck .lipid-note strong { font-size: 10px; }
+  .desktop-deck .lipid-note span { font-size: 13px; }
+
+  .desktop-deck .diagnostic-kicker { font-size: 10px; }
+  .desktop-deck .diagnostic-readout p { font-size: 13px; }
+  .desktop-deck .diagnostic-tabs button span { font-size: 11px; }
+  .desktop-deck .diagnostic-tabs button b { font-size: 12px; }
+
+  .desktop-deck .case-facts { font-size: 10px; }
+  .desktop-deck .case-risk span { font-size: 9px; }
+
+  .desktop-deck .choice-fixed span,
+  .desktop-deck .choice-action span { font-size: 10px; }
+  .desktop-deck .choice-action small { font-size: 10px; }
+  .desktop-deck .choice-context > span { font-size: 10px; }
+  .desktop-deck .choice-context p { font-size: 14px; }
+
+  .desktop-deck .days-number span { font-size: 10px; }
+  .desktop-deck .days-number em { font-size: 10px; }
+  .desktop-deck .days-rail button span { font-size: 9px; }
+  .desktop-deck .days-rail button b { font-size: 11px; }
+
+  .desktop-deck .final-thesis { font-size: clamp(1.2rem, 1.55vw, 1.58rem); }
+  .desktop-deck .final-line b { font-size: 13px; }
+
+  .desktop-deck .scene-caption {
+    font-size: 9px;
+    line-height: 1.4;
+  }
+
+  .desktop-deck .footline {
+    font-size: 8px;
+    letter-spacing: .055em;
+  }
+}
+
+/* Cinematic intro */
+.intro-film-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #111512;
+  opacity: 1;
+  transition: opacity 620ms cubic-bezier(.22,.61,.36,1), visibility 620ms ease;
+}
+
+.intro-film-overlay.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.intro-film-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #111512;
+}
+
+.intro-film-actions {
+  position: absolute;
+  z-index: 2;
+  right: clamp(18px, 2.5vw, 36px);
+  top: clamp(18px, 3vh, 34px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.intro-film-actions button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  color: rgba(255,255,255,.9);
+  background: rgba(24,28,25,.28);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font: 600 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.intro-film-actions button:hover { background: rgba(24,28,25,.48); }
+
+.intro-film-progress {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  transform-origin: left;
+  background: rgba(255,255,255,.64);
+  animation: intro-film-progress 25.9s linear forwards;
+}
+
+@keyframes intro-film-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (max-width: 640px) {
+  .desktop-deck { display: none; }
+
+  .intro-film-video { object-fit: cover; }
+  .intro-film-actions {
+    top: max(14px, env(safe-area-inset-top));
+    right: 14px;
+    gap: 5px;
+  }
+  .intro-film-actions button {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desktop-deck { scroll-behavior: auto; }
+  .intro-film-progress { animation: none; }
+}
