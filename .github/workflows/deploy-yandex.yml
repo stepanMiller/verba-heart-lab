@@ -38,8 +38,42 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ""
         run: npm run build:pages
 
-      - name: Install AWS CLI
-        run: python3 -m pip install --user awscli
+      - name: Install AWS CLI and boto3
+        run: python3 -m pip install --user awscli boto3
+
+      - name: Prepare one-time intro upload URL
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+        run: |
+          python3 - <<'PY'
+          import boto3, os
+          s3 = boto3.client(
+              's3',
+              endpoint_url=os.environ['S3_ENDPOINT'],
+              region_name=os.environ['AWS_DEFAULT_REGION'],
+              aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+              aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+          )
+          url = s3.generate_presigned_url(
+              'put_object',
+              Params={
+                  'Bucket': os.environ['BUCKET_NAME'],
+                  'Key': 'media/VERBA-Heart-Review-v05.mp4',
+                  'ContentType': 'video/mp4',
+              },
+              ExpiresIn=3600,
+          )
+          with open('/tmp/media-put-url.txt', 'w') as f:
+              f.write(url)
+          PY
+
+      - name: Save one-time upload URL
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-put-url
+          path: /tmp/media-put-url.txt
+          retention-days: 1
 
       - name: Deploy canonical root to Yandex Object Storage
         env:
@@ -50,7 +84,6 @@ jobs:
             --endpoint-url "${S3_ENDPOINT}" \
             --no-progress || true
 
-          # /media is persistent and is uploaded separately below.
           aws s3 sync out/ "s3://${BUCKET_NAME}/" \
             --endpoint-url "${S3_ENDPOINT}" \
             --delete \
@@ -72,19 +105,6 @@ jobs:
             --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
             --expires "Thu, 01 Jan 1970 00:00:00 GMT" \
             --content-type "text/html; charset=utf-8" \
-            --no-progress
-
-      - name: Publish intro media when tracked
-        if: ${{ hashFiles('public/media/VERBA-Heart-Review-v05.mp4') != '' }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 cp public/media/VERBA-Heart-Review-v05.mp4 \
-            "s3://${BUCKET_NAME}/media/VERBA-Heart-Review-v05.mp4" \
-            --endpoint-url "${S3_ENDPOINT}" \
-            --content-type "video/mp4" \
-            --cache-control "public, max-age=86400" \
             --no-progress
 
       - name: Build immutable release
