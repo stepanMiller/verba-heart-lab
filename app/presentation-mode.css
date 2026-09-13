@@ -188,7 +188,7 @@
   height: 2px;
   transform-origin: left;
   background: rgba(255,255,255,.64);
-  animation: intro-film-progress 25.9s linear forwards;
+  animation: intro-film-progress 27.87s linear forwards;
 }
 
 @keyframes intro-film-progress {
