@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const FILM_URL = "https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v02.mp4";
-const SESSION_KEY = "verba-heart-intro-seen-v1";
+const PRIMARY_FILM_URL = "https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v05.mp4?v=20260913";
+const FALLBACK_FILM_URL = "https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v02.mp4";
+const SESSION_KEY = "verba-heart-intro-seen-v05";
 
 export default function IntroFilm() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [visible, setVisible] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [filmUrl, setFilmUrl] = useState(PRIMARY_FILM_URL);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -25,12 +27,20 @@ export default function IntroFilm() {
 
     const attempt = video.play();
     if (attempt) attempt.catch(() => undefined);
-  }, [visible]);
+  }, [visible, filmUrl]);
 
   function closeIntro() {
     window.sessionStorage.setItem(SESSION_KEY, "1");
     setLeaving(true);
     window.setTimeout(() => setVisible(false), 620);
+  }
+
+  function handleFilmError() {
+    if (filmUrl !== FALLBACK_FILM_URL) {
+      setFilmUrl(FALLBACK_FILM_URL);
+      return;
+    }
+    closeIntro();
   }
 
   if (!visible) return null;
@@ -40,13 +50,13 @@ export default function IntroFilm() {
       <video
         ref={videoRef}
         className="intro-film-video"
-        src={FILM_URL}
+        src={filmUrl}
         autoPlay
         muted
         playsInline
         preload="auto"
         onEnded={closeIntro}
-        onError={closeIntro}
+        onError={handleFilmError}
       />
 
       <div className="intro-film-actions">
