@@ -3,6 +3,8 @@ name: Deploy V2 to Yandex Object Storage
 on:
   push:
     branches: [v2]
+    paths-ignore:
+      - '.media-staging/**'
   workflow_dispatch:
 
 permissions:
@@ -75,6 +77,27 @@ jobs:
             --content-type "text/html; charset=utf-8" \
             --no-progress
 
+      - name: Publish staged intro film when present
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+        run: |
+          if [ ! -f .media-staging/v05/manifest.json ]; then
+            echo "No staged intro film; skipping."
+            exit 0
+          fi
+
+          cat .media-staging/v05/part-*.b64 | base64 --decode > /tmp/VERBA-Heart-Review-v05.mp4
+          echo "b9cf3cf144a783e4874bba8c4afd135db64b807d2de3e168415fec264d0ef689  /tmp/VERBA-Heart-Review-v05.mp4" | sha256sum -c -
+          test "$(wc -c < /tmp/VERBA-Heart-Review-v05.mp4 | tr -d ' ')" = "3153921"
+
+          aws s3 cp /tmp/VERBA-Heart-Review-v05.mp4 \
+            "s3://${BUCKET_NAME}/media/VERBA-Heart-Review-v05.mp4" \
+            --endpoint-url "${S3_ENDPOINT}" \
+            --content-type "video/mp4" \
+            --cache-control "public, max-age=86400" \
+            --no-progress
+
       - name: Build immutable release
         run: |
           SHORT_SHA="${GITHUB_SHA::8}"
@@ -106,5 +129,5 @@ jobs:
       - name: Deployment URL
         run: |
           echo "Canonical: https://verba-heart.website.yandexcloud.net" >> "$GITHUB_STEP_SUMMARY"
-          echo "Intro: https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v02.mp4" >> "$GITHUB_STEP_SUMMARY"
+          echo "Intro: https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v05.mp4" >> "$GITHUB_STEP_SUMMARY"
           echo "Immutable release: https://verba-heart.website.yandexcloud.net${RELEASE_PATH}/" >> "$GITHUB_STEP_SUMMARY"
