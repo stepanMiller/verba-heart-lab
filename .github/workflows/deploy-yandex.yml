@@ -53,15 +53,15 @@ jobs:
           aws s3 cp out/ "s3://${BUCKET_NAME}/" --endpoint-url "${S3_ENDPOINT}" --recursive --exclude "*" --include "*.html" --cache-control "no-store, no-cache, must-revalidate, max-age=0" --expires "Thu, 01 Jan 1970 00:00:00 GMT" --content-type "text/html; charset=utf-8" --no-progress
           aws s3 cp out/index.html "s3://${BUCKET_NAME}/index.html" --endpoint-url "${S3_ENDPOINT}" --cache-control "no-store, no-cache, must-revalidate, max-age=0" --expires "Thu, 01 Jan 1970 00:00:00 GMT" --content-type "text/html; charset=utf-8" --no-progress
 
-      - name: Publish staged v05 intro film
-        if: ${{ hashFiles('.media-staging/v05-final/manifest.json') != '' }}
+      - name: Publish v05 intro film
+        if: ${{ hashFiles('.media-staging/v05-live/manifest.json') != '' }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
         run: |
-          cat .media-staging/v05-final/part-*.b64 | base64 --decode > /tmp/VERBA-Heart-Review-v05.mp4
-          EXPECTED_SHA=$(python3 -c 'import json; print(json.load(open(".media-staging/v05-final/manifest.json"))["sha256"])')
-          EXPECTED_BYTES=$(python3 -c 'import json; print(json.load(open(".media-staging/v05-final/manifest.json"))["bytes"])')
+          cat .media-staging/v05-live/part-*.b64 | base64 --decode > /tmp/VERBA-Heart-Review-v05.mp4
+          EXPECTED_SHA=$(python3 -c 'import json; print(json.load(open(".media-staging/v05-live/manifest.json"))["sha256"])')
+          EXPECTED_BYTES=$(python3 -c 'import json; print(json.load(open(".media-staging/v05-live/manifest.json"))["bytes"])')
           echo "${EXPECTED_SHA}  /tmp/VERBA-Heart-Review-v05.mp4" | sha256sum -c -
           test "$(wc -c < /tmp/VERBA-Heart-Review-v05.mp4 | tr -d ' ')" = "${EXPECTED_BYTES}"
           aws s3 cp /tmp/VERBA-Heart-Review-v05.mp4 "s3://${BUCKET_NAME}/media/VERBA-Heart-Review-v05.mp4" --endpoint-url "${S3_ENDPOINT}" --content-type "video/mp4" --cache-control "public, max-age=3600" --no-progress

@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const PRIMARY_FILM_URL = "https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v05.mp4?v=20260913";
+const PRIMARY_FILM_URL = "https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v05.mp4?v=20260913-2";
 const FALLBACK_FILM_URL = "https://verba-heart.website.yandexcloud.net/media/VERBA-Heart-Review-v02.mp4";
-const SESSION_KEY = "verba-heart-intro-seen-v05";
+const SESSION_KEY = "verba-heart-intro-seen-v05-2";
 
 export default function IntroFilm() {
   const videoRef = useRef<HTMLVideoElement>(null);
