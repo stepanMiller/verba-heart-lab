@@ -48,9 +48,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 rm "s3://${BUCKET_NAME}/index.html" --endpoint-url "${S3_ENDPOINT}" --no-progress || true
-          aws s3 sync out/ "s3://${BUCKET_NAME}/" --endpoint-url "${S3_ENDPOINT}" --delete --exclude "media/*" --no-progress
-          aws s3 cp out/ "s3://${BUCKET_NAME}/" --endpoint-url "${S3_ENDPOINT}" --recursive --exclude "*" --include "*.html" --cache-control "no-store, no-cache, must-revalidate, max-age=0" --expires "Thu, 01 Jan 1970 00:00:00 GMT" --content-type "text/html; charset=utf-8" --no-progress
+          aws s3 sync out/ "s3://${BUCKET_NAME}/" --endpoint-url "${S3_ENDPOINT}" --delete --exclude "media/*" --exclude "release-*/*" --exclude "index.html" --no-progress
+          aws s3 cp out/ "s3://${BUCKET_NAME}/" --endpoint-url "${S3_ENDPOINT}" --recursive --exclude "*" --include "*.html" --exclude "index.html" --cache-control "no-store, no-cache, must-revalidate, max-age=0" --expires "Thu, 01 Jan 1970 00:00:00 GMT" --content-type "text/html; charset=utf-8" --no-progress
           aws s3 cp out/index.html "s3://${BUCKET_NAME}/index.html" --endpoint-url "${S3_ENDPOINT}" --cache-control "no-store, no-cache, must-revalidate, max-age=0" --expires "Thu, 01 Jan 1970 00:00:00 GMT" --content-type "text/html; charset=utf-8" --no-progress
 
       - name: Publish v05 intro film

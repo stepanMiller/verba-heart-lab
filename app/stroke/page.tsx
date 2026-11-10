@@ -27,7 +27,7 @@ export default function StrokeScene() {
 
       <header className="topline">
         <img className="verba-mark" src={sitePath("/verba-wordmark.png")} alt="VERBA" />
-        <SceneNav current="09" previous="/vascular-age" next="/diagnostics" />
+        <SceneNav current="10" previous="/vascular-age" next="/diagnostics" />
       </header>
 
       <section className="stroke-rebuilt-copy" aria-labelledby="stroke-rebuilt-title">

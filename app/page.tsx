@@ -9,6 +9,7 @@ import FinalScene from "./final/page";
 import HeartContextScene from "./heart-context/page";
 import LipidsScene from "./lipids/page";
 import NoSymptomsScene from "./no-symptoms/page";
+import PlaqueScene from "./plaque/page";
 import PressureScene from "./pressure/page";
 import RiskScene from "./risk/page";
 import Score2Scene from "./score2/page";
@@ -68,6 +69,7 @@ function FullDeck({ mobile = false }: { mobile?: boolean }) {
       <Score2Scene />
       <PressureScene />
       <LipidsScene />
+      <PlaqueScene />
       <VascularAgeScene />
       <StrokeScene />
       <DiagnosticsScene />
@@ -84,11 +86,11 @@ export default function Home() {
     <>
       <IntroFilm />
 
-      <div className="desktop-deck" aria-label="Сердце до симптомов · 14 сцен">
+      <div className="desktop-deck" aria-label="Сердце до симптомов · 15 сцен">
         <FullDeck />
       </div>
 
-      <div className="mobile-deck" aria-label="Сердце до симптомов · 14 сцен">
+      <div className="mobile-deck" aria-label="Сердце до симптомов · 15 сцен">
         <FullDeck mobile />
       </div>
     </>

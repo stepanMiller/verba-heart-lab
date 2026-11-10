@@ -98,7 +98,7 @@ export function SceneNav({ current, previous, next }: SceneNavProps) {
       )}
       <span>{current}</span>
       <i />
-      <span>14</span>
+      <span>15</span>
       {next ? (
         <a href={sitePath(next)} aria-label="Следующая сцена" onClick={(event) => handleClick(event, 1)}>→</a>
       ) : (

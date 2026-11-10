@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./rebuilt-organ-scenes.css";
 import "./presentation-mode.css";
+import "./plaque/thrombus.css";
 import { sitePath } from "./site-path";
 
 const geistSans = Geist({

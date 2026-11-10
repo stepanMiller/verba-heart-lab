@@ -1,0 +1,204 @@
+.experience.thrombus-scene {
+  --paper: #f3f1eb;
+  --ink: #202421;
+  --sage: #58684f;
+  --muted: #4d5650;
+  --gutter: clamp(28px, 4.6vw, 78px);
+  display: grid;
+  grid-template: 1fr auto auto 1fr / minmax(0, 1fr) minmax(0, 1.75fr);
+  grid-template-areas: ". ." "copy ." "detail ." ". .";
+  gap: clamp(18px, 3.5vh, 36px) clamp(20px, 5vw, 75px);
+  padding: 82px var(--gutter) 74px;
+}
+
+.thrombus-scene::after {
+  background: linear-gradient(90deg, var(--paper) 0%, rgba(243,241,235,.96) 20%, rgba(243,241,235,.79) 32%, rgba(243,241,235,.16) 48%, transparent 60%);
+}
+
+.thrombus-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.thrombus-plate {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: max(100%, calc(100svh * 1.777));
+  aspect-ratio: 1672 / 941;
+}
+
+.thrombus-plate img,
+.thrombus-clot-area {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.thrombus-rupture {
+  mask-image: radial-gradient(ellipse 5.5% 8% at 65.4% 54.5%, black 35%, transparent 95%);
+  opacity: 0;
+  transition: opacity .28s ease;
+}
+
+.thrombus-clot-area {
+  mask-image: radial-gradient(ellipse 14% 19% at 67.5% 48%, black 49%, transparent 98%);
+  opacity: 0;
+  transition: opacity .24s ease;
+}
+
+[data-stage="rupture"] .thrombus-rupture,
+[data-stage="clot"] .thrombus-rupture,
+[data-stage="clot"] .thrombus-clot-area { opacity: 1; }
+[data-stage="clot"] .thrombus-clot { animation: thrombus-grow 1.6s cubic-bezier(.32,.1,.25,1) both; }
+@keyframes thrombus-grow {
+  0% { clip-path: circle(.3% at 65.4% 54.5%); }
+  100% { clip-path: circle(21% at 65.4% 54.5%); }
+}
+
+.thrombus-pin {
+  position: absolute;
+  left: 65.4%;
+  top: 54.5%;
+  width: clamp(14px, 1.4vw, 24px);
+  aspect-ratio: 1;
+  border: 1px solid #fff0d9;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(49,32,25,.38);
+  transform: translate(-50%, -50%);
+  animation: thrombus-pin 1.25s ease-out both;
+}
+@keyframes thrombus-pin { from { opacity: 0; scale: 1.4; } 32% { opacity: 1; } to { opacity: .82; scale: 1; } }
+
+.thrombus-copy, .thrombus-detail, .thrombus-footer { position: relative; z-index: 2; }
+.thrombus-copy { grid-area: copy; align-self: end; }
+.thrombus-scene .eyebrow { color: var(--sage); font-size: 11px; }
+.thrombus-scene .thrombus-copy h1 {
+  max-width: none;
+  color: var(--ink);
+  font-size: clamp(2.3rem, 4.05vw, 4.7rem);
+  line-height: .96;
+}
+.thrombus-lead {
+  margin: clamp(14px, 2.5vh, 25px) 0 0;
+  max-width: 39ch;
+  color: var(--muted);
+  font-size: clamp(15px, 1.24vw, 20px);
+  line-height: 1.5;
+}
+.thrombus-detail { grid-area: detail; align-self: start; }
+.thrombus-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-block: 1px solid #bfc5b8;
+}
+.thrombus-steps button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 45px;
+  padding: 5px clamp(4px, .64vw, 10px);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  background: transparent;
+  font-size: clamp(13px, 1.1vw, 17px);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.thrombus-steps button span { color: var(--sage); font: 500 10px/1 ui-monospace, Menlo, monospace; }
+.thrombus-steps button[aria-pressed="true"] {
+  border-bottom-color: #617556;
+  color: #33452e;
+  background: rgba(97,117,86,.09);
+  font-weight: 650;
+}
+.thrombus-steps button:hover { background: rgba(97,117,86,.08); }
+.thrombus-steps button:focus-visible { outline-offset: -2px; }
+.thrombus-caption { min-height: 106px; padding-top: 14px; }
+.thrombus-caption h2 {
+  margin: 0 0 6px;
+  color: #374833;
+  font: 400 clamp(23px, 2.15vw, 33px)/1.06 "Iowan Old Style", Baskerville, Georgia, serif;
+  letter-spacing: -.026em;
+}
+.thrombus-caption p {
+  max-width: 45ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.43;
+}
+.thrombus-footer {
+  color: var(--sage);
+  font: 500 10px/1.4 ui-monospace, Menlo, monospace;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.thrombus-footer {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 26px;
+}
+.thrombus-footer a {
+  color: #384735;
+  background: rgba(243,241,235,.88);
+  padding-inline: 3px;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  html:has(body > .thrombus-scene), body:has(> .thrombus-scene) {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+  }
+  .experience.thrombus-scene, .mobile-deck > .experience.thrombus-scene {
+    position: relative;
+    inset: auto;
+    grid-template: auto auto auto auto auto / minmax(0, 1fr);
+    grid-template-areas: "header" "copy" "art" "detail" "footer";
+    gap: 17px;
+    height: auto;
+    min-height: 100svh;
+    padding: 20px 20px 19px;
+  }
+  .thrombus-scene::after { display: none; }
+  .thrombus-scene .topline { position: relative; inset: auto; grid-area: header; }
+  .thrombus-copy { align-self: start; margin-top: 5px; }
+  .thrombus-scene .eyebrow { margin-bottom: 10px; font-size: 10px; }
+  .thrombus-scene .thrombus-copy h1 { max-width: 15ch; font-size: clamp(2.45rem, 10vw, 3.6rem); }
+  .thrombus-lead { margin-top: 10px; font-size: 14px; line-height: 1.43; }
+  .thrombus-art {
+    position: relative;
+    grid-area: art;
+    inset: auto;
+    margin-inline: -20px;
+    aspect-ratio: 1.56;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%);
+  }
+  .thrombus-plate { width: 144%; left: 29%; }
+  .thrombus-caption { min-height: 91px; padding-top: 10px; }
+  .thrombus-footer {
+    position: relative;
+    inset: auto;
+    grid-area: footer;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thrombus-rupture, .thrombus-clot-area { transition: none; }
+  [data-stage="clot"] .thrombus-clot, .thrombus-pin { animation: none; }
+}
